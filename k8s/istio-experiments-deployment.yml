@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-experiments-service
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: istio-experiments
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: istio-experiments-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 100
+  selector:
+    matchLabels:
+      app: istio-experiments
+  template:
+    metadata:
+      labels:
+        app: istio-experiments
+        version: v1
+    spec:
+      containers:
+      - name: istio-experiments-v1
+        image: istio-experiments:v1
+        env:
+          - name: VERSION
+            value: VERSION-1
+        ports:
+        - name: spring-boot
+          containerPort: 8080
