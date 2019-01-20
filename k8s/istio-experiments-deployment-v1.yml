@@ -14,12 +14,15 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-experiments-deployment
+  labels:
+    app: istio-experiments
+    version: v1
 spec:
   replicas: 1
-  revisionHistoryLimit: 100
   selector:
     matchLabels:
       app: istio-experiments
+      version: v1
   template:
     metadata:
       labels:
@@ -29,9 +32,19 @@ spec:
       containers:
       - name: istio-experiments-v1
         image: istio-experiments:v1
+        imagePullPolicy: IfNotPresent
         env:
           - name: VERSION
             value: VERSION-1
         ports:
-        - name: spring-boot
+        - name: http
           containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+              - curl
+              - localhost:8080/hello
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 1
