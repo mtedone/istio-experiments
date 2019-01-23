@@ -3,7 +3,7 @@
 while true; do
   curl -s http://localhost/hello
   echo ""
-  sleep 2
+  sleep 1
 done
 
 exit 0

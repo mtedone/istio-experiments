@@ -8,11 +8,35 @@ spec:
   gateways:
     - istio-experiments-gateway
   http:
-    - match:
-        - uri:
-            prefix: /
-      route:
-      - destination:
-          port:
-            number: 8080
-          host: istio-experiments-service
+  - route:
+    - destination:
+        host: istio-experiments-service
+        subset: v1
+        port:
+          number: 8080
+      weight: 90
+    - destination:
+        host: istio-experiments-service
+        subset: v2
+        port:
+          number: 8080
+      weight: 10
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: istio-experiments
+spec:
+  host: istio-experiments-service
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: v1
+    labels:
+      app: istio-experiments
+      version: v1
+  - name: v2
+    labels:
+      app: istio-experiments
+      version: v2
