@@ -7,11 +7,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 5Gi
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/istio-experiments/data"
+    path: "/Users/marcotedone/data/istio-experiments"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,4 +23,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Gi
