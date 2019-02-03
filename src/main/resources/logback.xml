@@ -20,11 +20,11 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             <fileNamePattern>/var/log/springapps/istio-experiments.%i.log.zip</fileNamePattern>
             <minIndex>1</minIndex>
-            <maxIndex>3</maxIndex>
+            <maxIndex>20</maxIndex>
         </rollingPolicy>
 
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>5MB</maxFileSize>
+            <maxFileSize>20MB</maxFileSize>
         </triggeringPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>

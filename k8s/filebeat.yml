@@ -1,0 +1,13 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/springapps/*.log
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  index: "springapps-%{[beat.version]}-%{+yyyy.MM.dd}"
+
+setup.template:
+  name: "springapps"
+  pattern: "springapps-*"
