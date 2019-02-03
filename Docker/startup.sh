@@ -8,12 +8,16 @@ tar xzvf filebeat-6.6.0-linux-x86_64.tar.gz
 
 rm -f filebeat-6.6.0-linux-x86_64.tar.gz
 
-cp /etc/filebeat/filebeat.yml $FILEBEAT_HOME/filebeat.yml
+cp /etc/filebeat/filebeat.yml ${FILEBEAT_HOME}/filebeat.yml
 
-chown root $FILEBEAT_HOME/filebeat.yml
+chown root ${FILEBEAT_HOME}/filebeat.yml
 
 mkdir -p /var/log/filebeat
 
-$FILEBEAT_HOME/filebeat -e 2>/var/log/filebeat/filebeat.log &
+cd ${FILEBEAT_HOME}
+
+./filebeat -e 2>/var/log/filebeat/filebeat.log &
 
 java -jar /opt/app/japp.jar
+
+exit 0
