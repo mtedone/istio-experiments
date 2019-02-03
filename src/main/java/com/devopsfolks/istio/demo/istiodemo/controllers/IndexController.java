@@ -16,6 +16,7 @@ public class IndexController {
 
     @GetMapping("/hello")
     public String index() {
+        LOG.info("Printing Hello World message");
         return "Hello from version " + version;
     }
 }

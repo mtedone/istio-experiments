@@ -1,3 +1,30 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: istio-experiment-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/istio-experiments/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: istio-experiment-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -35,3 +62,10 @@ spec:
         - name: http
           containerPort: 8080
           protocol: TCP
+        volumeMounts:
+        - name: istio-experiment-persistent-storage
+          mountPath: /var/log/springapps
+      volumes:
+      - name: istio-experiment-persistent-storage
+        persistentVolumeClaim:
+          claimName: istio-experiment-pv-claim
